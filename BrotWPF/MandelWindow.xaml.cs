@@ -259,6 +259,13 @@ namespace HRDCCalendar.Extras.Mandelbrot
                         Description = "Celtic Simonbrot",
                         Tip = "z <= z^p * rabs(z^2) + c"
                     }
+                },
+                { MandelFunction.CodeParadeFeather,
+                    new DescriptionTipHolder
+                    {
+                        Description = "Code Parade's Feather",
+                        Tip = "z <= z^p / (1 + z ⊙ z) + c"
+                    }
                 }
             };
 

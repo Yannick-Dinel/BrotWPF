@@ -24,7 +24,8 @@ namespace HRDCCalendar.Extras.Mandelbrot
         Simonbrot,
         InvertedSimonbrot,
         CelticSimonbrot,
-        HeartSimonbrot
+        HeartSimonbrot,
+        CodeParadeFeather
     }
 
     public class Mandelbrot
@@ -180,6 +181,15 @@ namespace HRDCCalendar.Extras.Mandelbrot
                             ComplexPower(z, p) * ComplexAbsR(ComplexPower(z, 2)) + c
                         ),
                         RealPowerGrowth = new Func<double, double>(p => p + 2)
+                    }
+                },
+                { MandelFunction.CodeParadeFeather,
+                    new MandelFunctionInfo
+                    {
+                        IterationFunction = new Func<Complex, Complex, Complex, Complex>((z, c, p) =>
+                            ComplexPower(z, p) / (1 + ComplexElementWisePow(z, (int)p.Real-1)) + c
+                        ),
+                        RealPowerGrowth = new Func<double, double>(p => p)
                     }
                 }
             };
@@ -455,5 +465,16 @@ namespace HRDCCalendar.Extras.Mandelbrot
         protected static Complex ComplexAbsR(Complex c) => new Complex(Math.Abs(c.Real), c.Imaginary);
         protected static Complex ComplexAbsI(Complex c) => new Complex(c.Real, Math.Abs(c.Imaginary));
         protected static Complex ComplexSwap(Complex c) => new Complex(c.Imaginary, c.Real);
+        protected static Complex ComplexElementWiseMult(Complex c1, Complex c2) => new Complex(c1.Real * c2.Real, c1.Imaginary * c2.Imaginary);
+
+        protected static Complex ComplexElementWisePow(Complex c, int pow)
+        {
+            if (pow <= 1) return c;
+            for (int i = 1; i < pow; i++)
+            {
+                c = ComplexElementWiseMult(c, c);
+            }
+            return c;
+        }
     }
 }
